@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-app-deployment    # Name of the deployment
+spec:
+  replicas: 2                    # Number of container replicas
+  selector:
+    matchLabels:
+      app: python-app             # Label to match the pods
+  template:
+    metadata:
+      labels:
+        app: python-app           # Label applied to pods
+    spec:
+      containers:
+      - name: python-container    # Name of the container
+        image: optimized_python_image  # Docker image to use
+        ports:
+        - containerPort: 8080     # Port the container listens on (if needed)
+        volumeMounts:
+        - name: data-volume       # Define a volume mount for the container
+          mountPath: /home/data   # Mount path inside the container
+      volumes:
+      - name: data-volume         # Volume definition
+        hostPath:
+          path: /path/to/data     # Path on the host machine to mount
+          type: Directory         # Type of volume (Directory, File, etc.)
